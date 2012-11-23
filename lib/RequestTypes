@@ -5,5 +5,3 @@ module.exports = {
 	MULTIPRODUCE: 3,
 	OFFSETS     : 4
 }
-
-

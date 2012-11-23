@@ -1,3 +1,8 @@
+v0.2.2
++ Major refactor to work OOTB
++ Leverage Underscore over STD library where possible
++ Remove fake object oriented inheritence
+
 v0.2.1
 + Fix std dependency version (@philips)
 

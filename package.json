@@ -1,15 +1,15 @@
 {
   "name": "kafka",
   "description": "A node client for Kafka",
-  "version": "0.2.2",
-  "homepage": "https://github.com/marcuswestin/node-kafka",
-  "author": "Marcus Westin <narcvs@gmail.com> (http://marcuswest.in)",
+  "version": "0.2.3",
+  "homepage": "https://github.com/terranceasnyder/node-kafka",
+  "author": "Terrance Snyder <terrance.a.snyder@gmail.com> (http://shutupandcode.net)",
   "repository": {
     "type": "git",
-    "url": "git://github.com/marcuswestin/node-kafka.git"
+    "url": "git://github.com/terranceasnyder/node-kafka.git"
   },
   "bugs": {
-    "url": "http://github.com/marcuswestin/node-kafka/issues"
+    "url": "http://github.com/terranceasnyder/node-kafka/issues"
   },
   "engines": {
     "node": "*"
@@ -21,7 +21,11 @@
     }
   ],
   "main": "kafka",
-
+  "dependencies" : { 
+    "std" : "*",
+    "underscore" : "*",
+    "bigint" : "*",
+  },
   "directories": {
     "lib": "lib"
   },

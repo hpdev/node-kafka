@@ -1,8 +1,7 @@
 Main project repo moved
 -----------------------
-This project is most actively used and maintained by Taylor Gautier at Tagged.
-
-Please see the [Tagged node-kafka repo](https://github.com/tagged/node-kafka).
+This project is a spin off of [Tagged node-kafka repo](https://github.com/tagged/node-kafka)
+that project isn't updated frequently and OOTB it failed to work.
 
 
 Kafka javascript API
@@ -73,6 +72,7 @@ Authors
 
 - Marcus Westin (clover)
 - Taylor Gautier (tagged)
+- Terrance A. Snyder (fork)
 
 Contributors
 ------------
