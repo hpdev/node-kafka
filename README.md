@@ -20,6 +20,7 @@ Get up and running
 
  3 Publish and consume some messages!
 
+``` js
 	var kafka = require('kafka')
 	
 	new kafka.Consumer().connect().subscribeTopic('test').on('message', function(topic, message) {
@@ -30,12 +31,14 @@ Get up and running
 		producer.send("hey!")
 		producer.close()
 	})
+```
 
 API
 ---
 
 `kafka.Consumer`
 
+``` js
 	var consumer = new kafka.Consumer({
 		// these are the default values
 		host:         'localhost',
@@ -49,9 +52,11 @@ API
 	consumer.connect(function() {
         consumer.subscribeTopic({name: 'test', partition: 0})
     })
+```
 
 `kafka.Producer`
 
+``` js
 	var producer = new kafka.Producer({
 		// these are also the default values
 		host:         'localhost',
@@ -62,7 +67,7 @@ API
 	producer.connect(function() {
 		producer.send('message bytes')
 	})
-
+```
 Authors
 -------
 
