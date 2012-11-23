@@ -1,10 +1,5 @@
-/* 
- * A simple demonstration of using the consumer
- * class which allows for subscribing to and 
- * unsubscribing from topics.
- */
-var kafka = require('../kafka')
-var optimist = require('../../optimist')
+var Consumer = require('./Consumer')
+var optimist = require('optimist')
     .usage('Consume a topic from the most recent message\nUsage: $0')
     .options('h', {
         alias: 'host',
@@ -18,7 +13,14 @@ var optimist = require('../../optimist')
         alias: 'topic',
         default: 'testtopic'
     })
-
+    .options('m', {
+        alias: 'message',
+        default: 'hello world'
+    })
+    .options('r', {
+        alias: 'repeat-interval',
+        default: '0'
+    })
 var argv = optimist.argv
 
 if (argv.help) {
@@ -26,48 +28,38 @@ if (argv.help) {
     process.exit()
 }
 
-var consumer = new kafka.Consumer({
-	host:argv.host,
-	port:argv.port,
-    pollInterval: 100,
-    reconnectInterval: 1000,
-    autoConnectOnWrite: false,
+var consumer = new Consumer({
+    host: argv.host,
+    port: argv.port,
 })
 
-var first = true
+var count = 0;
+var startTime;
 
-consumer.on('debug', function(msg) {
-    console.log(msg)
-})
-consumer.on('connecting', function(address) {
-    console.error("Connecting to " + address + "...")
-})
-consumer.on('connected', function(address) {
-    console.error('Connected to ' + address)
-})
-consumer.on('disconnected', function(address) {
-    console.error('Disconnected from ' + address)
-})
-consumer.on('message', function(topic, message, offset) {
-	console.log('Consumed message:' + message + ' topic:' + topic + ' offset:' + offset)
-})
-consumer.on('messageerror', function(topic, partition, error, name) {
-	console.error('KAFKA ERROR:' + error + ' topic:' + topic + ' name:' + name)
-    consumer.unsubscribeTopic(topic).close().once('connected', function() {
-        consumer.fetchOffsets({name: topic, partition: partition, offsets: 1})
-    })
-})
-consumer.on('parseerror', function(topic, partition, msg) {
-    console.log('PARSE ERROR -------------', msg)
-    consumer.unsubscribeTopic(topic).close().once('connected', function() {
-        consumer.fetchOffsets({name: topic, partition: partition, offsets: 1})
-    })
-})
-consumer.on('lastoffset', function(topic, offset) {
-    console.error("got last offset for topic: " + topic + " offset: " + offset)
-    consumer.subscribeTopic({name: topic, offset: offset})
-})
+console.log('subscribing to topic %s on %s', argv.topic, argv.host);
 
-if (argv.topic instanceof Array == false) argv.topic = [argv.topic]
-for (i in argv.topic) consumer.fetchOffsets({name: argv.topic[i], offsets: 1})
-consumer.connect()
+consumer
+    .subscribeTopic(argv.topic)
+        .on('message', function(topic, message) {
+            console.log('Consumed %s => %s', topic, message);
+            if (startTime == null && count <= 0) {
+                startTime = new Date();
+            }
+            if (count > 0 && count % 10000 == 0) {
+                var endTime = new Date();
+                var ms = endTime - startTime
+                console.log("ms %d => %d per second", ms, (count/ms)*1000);
+            }
+            count++;
+        })
+        .on('error', function(err, msg) {
+            console.log(msg);
+        })
+        .on('lastmessage', function() {
+            console.log('LAST MESSAGE %d', count);
+        })
+        .connect();
+
+Number.prototype.digits = function() {
+    return (Math.floor(this)+"").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+};

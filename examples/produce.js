@@ -1,5 +1,5 @@
-var kafka = require('../kafka')
-var optimist = require('../../optimist')
+var Producer = require('./Producer')
+var optimist = require('optimist')
     .usage('Consume a topic from the most recent message\nUsage: $0')
     .options('h', {
         alias: 'host',
@@ -28,7 +28,7 @@ if (argv.help) {
     process.exit()
 }
 
-var producer = new kafka.Producer({ 
+var producer = new Producer({ 
     host: argv.host,
     port: argv.port })
 
@@ -49,4 +49,3 @@ producer.on('disconnected', function(address) {
     console.error('Disconnected from ' + address)
 })
 producer.connect()
-

@@ -17,21 +17,64 @@
  *
  * See Consumer.js for a more realistic use case
  */
-var kafka = require('kafka')
+var Connection = require('./Connection');
+var Client = require('./Client');
+var Consumer = require('./Consumer');
+var Producer = require('./Producer');
 
-var client  = new kafka.Client({
-    host:'localhost',
-    port:9092,
-})
+/* 
+new Connection({ host: 'localhost' })
+		.on('connecting', function(d) {
+			console.log('Connecting to %s', d)
+		})
+		.on('connected', function(d) {
+			console.log('Connected to %s', d)
+		})
+		.on('connection_error', function(d) {
+			console.log('Error Connecting to %s', d)
+		})
+		.on('closed', function(d) {
+			console.log('Connection Closed to %s', d)
+		})
+		.on('disconnected', function(d) {
+			console.log('Disconnected from %s', d)
+		})
+		.connect();*/
 
-client.on('message', function(topic, message, offset) {
-    console.log("Consumed topic:" + topic + " message:" + message)
+/* */
+new Client({ host: 'localhost' })
+		.on('connecting', function(d) {
+			console.log('Connecting to %s', d)
+		})
+		.on('connected', function(d) {
+			console.log('Connected to %s', d)
+		})
+		.on('connection_error', function(d) {
+			console.log('Error Connecting to %s', d)
+		})
+		.on('closed', function(d) {
+			console.log('Connection Closed to %s', d)
+		})
+		.on('disconnected', function(d) {
+			console.log('Disconnected from %s', d)
+		})
+		.connect();
 
-})
-client.on('lastmessage', function(topic, offset) {
-      console.log('lastmessage')
-})
-client.connect(function() { 
-    client.fetchTopic({name: "test", offset: 0})
-    client.fetchTopic({name: "test2"})
-})
+/* 
+new Producer({ host: 'localhost', port: 9092 })
+		.on('connecting', function(d) {
+			console.log('Connecting to %s', d)
+		})
+		.on('connected', function(d) {
+			console.log('Connected to %s', d)
+		})
+		.on('connection_error', function(d) {
+			console.log('Error Connecting to %s', d)
+		})
+		.on('closed', function(d) {
+			console.log('Connection Closed to %s', d)
+		})
+		.on('disconnected', function(d) {
+			console.log('Disconnected from %s', d)
+		})
+		.connect();*/
